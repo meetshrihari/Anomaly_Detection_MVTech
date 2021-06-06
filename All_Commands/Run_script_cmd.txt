@@ -1,0 +1,59 @@
+# -------------------------------------------------------------------
+# For GPU -->> Check fot the image ID
+docker run -it --rm --runtime nvidia --network host -v /home/muttagsi:/muttagsi 98a7952f7f9c 
+
+## Copy Commands ==> Coral
+scp -r Desktop/TFLite/quantized_models/quantized_mobilenet_shri.tflite  mendel@coral-dev-board-01:/mnt/shri/model_hub/mobilenet/
+
+
+
+##### Run *.py file to creat *.onnx files
+sudo docker run -it --rm --runtime nvidia --network host -v /media/muttagsi/nvme/Shrihari:/Shrihari py_all python3 /Shrihari/resnet50_onnx_nograd/resnet50_onnx_nograd.py
+
+#### Run TENSORT file
+sudo docker run -it --rm --runtime nvidia --network host -v /media/muttagsi/nvme/Shrihari:/Shrihari py_all python3 /Shrihari/cris_code/TensorRT/resnetxx_TensorRT_ONNX_cudaevents_pred_shri.py
+
+
+#### Run trtexec commands with maximum power
+trtexec --onnx=/media/muttagsi/nvme/Shrihari/resnet50_onnx_nograd/onnx_models/resnet50_cuda_opset10_1batch_nograd.onnx --workspace=5000 --iterations=10 --avgRuns=100
+
+
+####### RUN YOLO (/usr/src/tensorrt/samples/python/yolov3_onnx/******)
+sudo docker run -it --rm --runtime nvidia --network host -v /media/muttagsi/nvme/Shrihari:/Shrihari py_up2 python3 /usr/src/tensorrt/samples/python/yolov3_onnx/yolov3_to_onnx.py
+
+
+
+
+######## RUNN ALL at once
+trtexec --onnx=/media/muttagsi/nvme/Shrihari/resnet50_onnx_nograd/onnx_models/resnet50_cuda_opset10_2batch_nograd.onnx --workspace=4000 --iterations=10 --avgRuns=100 ; trtexec --onnx=/media/muttagsi/nvme/Shrihari/resnet50_onnx_nograd/onnx_models/resnet50_cuda_opset10_2batch_nograd.onnx --workspace=5000 --iterations=10 --avgRuns=100 ; trtexec --onnx=/media/muttagsi/nvme/Shrihari/resnet50_onnx_nograd/onnx_models/resnet50_cuda_opset10_2batch_nograd.onnx --workspace=5000 --iterations=10 --avgRuns=100 --fp16 ; trtexec --onnx=/media/muttagsi/nvme/Shrihari/resnet50_onnx_nograd/onnx_models/resnet50_cuda_opset10_2batch_nograd.onnx --workspace=5000 --iterations=10 --avgRuns=100 ; --int8
+
+
+********************************
+
+if [ ${#args[@]} -lt 3 ] && [ ${#args[@]} -gt 4 ]; then
+	echo " Enter atleast 3 parameters and Maximum 4 parameters"
+	echo " workspace=  iterations=  avgRuns=  floatingPoint=" 
+else
+	#ececute batch Sizes
+	for i in 1 
+	do
+		echo "***************************** EXECUTION FOR BATCH SIZE $i "
+		echo "************************************************************ "
+		#execute the following script
+		if [ "${args[3]}" -eq "--int8" ]; then
+			trtexec --onnx=/media/muttagsi/nvme/Shrihari/resnet50_onnx_nograd/onnx_models/resnet50_cuda_opset10_${i}batch_nograd.onnx --workspace=${args[0]} --iterations=${args[1]} --avgRuns=${args[2]} --int8
+
+		elif [ "${args[3]}" -eq "--fp16" ]; then
+			trtexec --onnx=/media/muttagsi/nvme/Shrihari/resnet50_onnx_nograd/onnx_models/resnet50_cuda_opset10_${i}batch_nograd.onnx --workspace=${args[0]} --iterations=${args[1]} --avgRuns=${args[2]} --fp16
+
+		elif [ "${args[3]}" -eq "--best" ]; then
+			trtexec --onnx=/media/muttagsi/nvme/Shrihari/resnet50_onnx_nograd/onnx_models/resnet50_cuda_opset10_${i}batch_nograd.onnx --workspace=${args[0]} --iterations=${args[1]} --avgRuns=${args[2]} --best
+
+		else
+			trtexec --onnx=/media/muttagsi/nvme/Shrihari/resnet50_onnx_nograd/onnx_models/resnet50_cuda_opset10_${i}batch_nograd.onnx --workspace=${args[0]} --iterations=${args[1]} --avgRuns=${args[2]}
+
+		fi
+
+	done
+fi
+
