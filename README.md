@@ -52,10 +52,9 @@ Project Organization
 ## Results 
 <div style="border-bottom:none;">
   <div align="center">
-    <p>(a)
-    <img src="references/Images/glue.png" width="150"></p>
+    <img src="references/Images/glue.png" width="150">
     <img src="references/Images/side_glue.png" width="150">
     <img src="references/Images/side_glue1.png" width="150">
-    <p>The left most image is the test image, Image (center) shows the resulting localization fom Unsupervised setting and the right most image is a resultant of Semi-Supervised setting<p>      
+    <p>Test image, saliency map for Unsupervised and Semi-Supervised setting<p>      
   </div>
 </div>
