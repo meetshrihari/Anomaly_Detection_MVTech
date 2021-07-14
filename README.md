@@ -1,7 +1,6 @@
 <div style="border-bottom:none;">
   <div align="center">
     <img src="references/Images/fau_logo.gif" width="300">
-    <h1>Winter Semester 2020<h1>
     <img src="references/Images/logo_mad.png" width="300">
     <h1>Reference Algorithm for Anomaly Localization uing MVTech Dataset<h1>
       <img src="references/Images/WorkFlow.png" width="1000">
@@ -17,7 +16,7 @@ The Project is dependent on the paper "Attention Guided Anomaly Localization in 
 
 ## Installation 
 - `pip install mvtech_al` or 
-- `git clone https://mad-srv.informatik.uni-erlangen.de/MadLab/industry-4.0/student-projects/anomaly-segmentation-in-monocular-images-using-variational-autoencoder.git`
+- `git clone https://github.com/meetshrihari/Anomaly_Detection_MVTech.git`
 
 ## Run
 ```
