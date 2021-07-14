@@ -55,7 +55,6 @@ Project Organization
     <img src="references/Images/glue.png" width="150">
     <img src="references/Images/side_glue.png" width="150">
     <img src="references/Images/side_glue1.png" width="150">
-    <p>The above figures shows the result of the Anomaly localization<p>
-    <p>The left most image is the test image, Image (center) show the resulting localization fom Unsupervised setting. Similarly, the right most image is a resultant of Semi-Supervised setting<p>      
+    <p>The left most image is the test image, Image (center) shows the resulting localization fom Unsupervised setting and the right most image is a resultant of Semi-Supervised setting<p>      
   </div>
 </div>
